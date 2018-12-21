@@ -1,0 +1,15 @@
+{
+  "name": "js-mars-rover",
+  "version": "1.0.0",
+  "description": "",
+  "main": "thing.js",
+  "scripts": {
+    "test": "jest --watchAll"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
