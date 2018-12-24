@@ -58,83 +58,31 @@ describe('Initialize the Rover', () => {
 
 })
 
-describe('Rover receives an', () => {
-  describe('exec forward command', () => {
-    it('when facing north', () => {
-      const rover = new Rover(1, 2, 'n')
+describe('Rover processes a single command.', () => {
+  test.each([
+    ['n', 'f', 1, 3],
+    ['s', 'f', 1, 1],
+    ['e', 'f', 2, 2],
+    ['n', 'b', 1, 1],
+    ['s', 'b', 1, 3],
+    ['w', 'b', 2, 2]
+  ])('starting at (1, 2) and facing %s, a %s command ends up at (%i, %i)', (direction, command, finalX, finalY) => {
+    const rover = new Rover(1, 2, direction)
 
-      rover.exec('f')
-      expect(rover.state).toEqual([1, 3, 'n'])
-    })
-
-    it('when facing south', () => {
-      const rover = new Rover(1, 2, 's')
-
-      rover.exec('f')
-      expect(rover.state).toEqual([1, 1, 's'])
-    })
-
-    test('when facing east', () => {
-      const rover = new Rover(1, 2, 'e')
-
-      rover.exec('f')
-      expect(rover.state).toEqual([2, 2, 'e'])
-    })
+    rover.exec(command)
+    expect(rover.state).toEqual([finalX, finalY, direction])
   })
 
-  describe('exec backwards command', () => {
-    test('when facing north', () => {
-      const rover = new Rover(1, 2, 'n')
+  test.each([
+    ['s', 'r', 'w'],
+    ['w', 'r', 'n'],
+    ['s', 'l', 'e'],
+    ['n', 'l', 'w']
+  ])('starting facing %s, a %s command rotates to %s', (startDirection, command, endDirection) => {
+    const rover = new Rover(1, 1, startDirection)
 
-      rover.exec('b')
-      expect(rover.state).toEqual([1, 1, 'n'])
-    })
-
-    test('when facing south', () => {
-      const rover = new Rover(1, 2, 's')
-
-      rover.exec('b')
-      expect(rover.state).toEqual([1, 3, 's'])
-    })
-
-    test('when facing west', () => {
-      const rover = new Rover(1, 2, 'w')
-
-      rover.exec('b')
-      expect(rover.state).toEqual([2, 2, 'w'])
-    })
-  })
-
-  describe('exec left command', () => {
-    test('when facing south', () => {
-      const rover = new Rover(1, 1, 's')
-
-      rover.exec('l')
-      expect(rover.state).toEqual([1, 1, 'e'])
-    })
-
-    test('when facing north', () => {
-      const rover = new Rover(1, 1, 'n')
-
-      rover.exec('l')
-      expect(rover.state).toEqual([1, 1, 'w'])
-    })
-  })
-
-  describe('right rotation', () => {
-    test('when facing south', () => {
-      const rover = new Rover(1, 1, 's')
-
-      rover.exec('r')
-      expect(rover.state).toEqual([1, 1, 'w'])
-    })
-
-    test('when facing west', () => {
-      const rover = new Rover(1, 1, 'w')
-
-      rover.exec('r')
-      expect(rover.state).toEqual([1, 1, 'n'])
-    })
+    rover.exec(command)
+    expect(rover.state).toEqual([1, 1, endDirection])
   })
 
 })
