@@ -11,10 +11,6 @@ class Rover {
     this.state = [x, y, d]
   }
 
-  modulo(n){
-    return ((n%4)+4)%4;
-  }
-
   rotate(n){
     this.state[2] = clockwise_directions[(clockwise_directions.indexOf(this.state[2]) + n + 4) % 4]
   }
